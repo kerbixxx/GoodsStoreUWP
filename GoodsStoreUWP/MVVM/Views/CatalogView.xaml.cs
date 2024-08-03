@@ -1,6 +1,4 @@
-﻿using GoodsStoreUWP.Data.Base;
-using GoodsStoreUWP.Models;
-using GoodsStoreUWP.MVVM.ViewModels.Catalog;
+﻿using GoodsStoreUWP.MVVM.ViewModels.Catalog;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Windows.UI.Xaml.Controls;
@@ -9,11 +7,15 @@ namespace GoodsStoreUWP.MVVM.Views
 {
     public sealed partial class CatalogView : Page
     {
-        public CatalogView(IServiceProvider serviceProvider)
+        private readonly CatalogViewModel _viewModel;
+        public CatalogView()
         {
-            InitializeComponent();
-            var repository = serviceProvider.GetService<IRepository<Product, int>>();
-            DataContext = new CatalogViewModel(repository);
+            this.InitializeComponent();
+            ServiceProvider serviceProvider = App.GetServiceProvider();
+
+            _viewModel = serviceProvider.GetService<CatalogViewModel>();
+
+            this.DataContext = _viewModel;
         }
     }
 }

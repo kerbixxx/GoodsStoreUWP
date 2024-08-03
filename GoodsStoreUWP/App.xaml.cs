@@ -1,33 +1,22 @@
 ﻿using GoodsStoreUWP.Context;
 using GoodsStoreUWP.Data.Base;
-using GoodsStoreUWP.Models;
 using GoodsStoreUWP.MVVM.ViewModels;
 using GoodsStoreUWP.MVVM.ViewModels.Catalog;
 using GoodsStoreUWP.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace GoodsStoreUWP
 {
     sealed partial class App : Application
     {
-        private static ServiceProvider _serviceProvider = null;
+        private static ServiceProvider _serviceProvider;
         public App()
         {
             IServiceCollection services = new ServiceCollection();
@@ -81,5 +70,10 @@ namespace GoodsStoreUWP
             var deferral = e.SuspendingOperation.GetDeferral();
             deferral.Complete();
         }
+        public static ServiceProvider GetServiceProvider()
+        {
+            return _serviceProvider;
+        }
+
     }
 }

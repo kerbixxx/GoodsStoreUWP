@@ -15,13 +15,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
-
 namespace GoodsStoreUWP
 {
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         private NavigationViewItem _lastItem;
@@ -73,7 +68,7 @@ namespace GoodsStoreUWP
                 }
             }
 
-            ContentFrame.Navigate(typeof(GoodsStoreUWP.MVVM.Views.CatalogView));
+            ContentFrame.Navigate(typeof(MVVM.Views.CatalogView));
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

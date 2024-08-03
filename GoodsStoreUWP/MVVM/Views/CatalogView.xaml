@@ -7,17 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CatalogView">
-    <Grid>
-        <ListBox Grid.Column="0" ItemsSource="{Binding Products}">
-            <ListBox.ItemTemplate>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ItemsControl ItemsSource="{Binding Products}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="5">
-                        <TextBlock FontSize="18" Text="{Binding Path=Name}"></TextBlock>
-                        <TextBlock Text="{Binding Path=Price}"></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" Margin="0,0,10,0" />
+                        <TextBlock Text="{Binding Price}" />
                     </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Page>
