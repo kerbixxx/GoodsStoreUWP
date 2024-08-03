@@ -19,12 +19,17 @@ namespace GoodsStoreUWP.MVVM.ViewModels.Catalog
             get => _products;
             set => SetProperty(ref _products, value);
         }
-        public CatalogViewModel(IRepository<Product,int> productRepository) 
+        public CatalogViewModel(IRepository<Product, int> productRepository)
         {
             _productRepository = productRepository;
-
-            var objList = _productRepository.GetAll();
-            Products = new ObservableCollection<Product>(objList);
+            LoadProducts();
         }
+
+        private void LoadProducts()
+        {
+            var products = _productRepository.GetAll();
+            Products = new ObservableCollection<Product>(products);
+        }
+
     }
 }
