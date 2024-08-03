@@ -3,20 +3,47 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GoodsStoreUWP.MVVM.Views"
+    xmlns:item="using:GoodsStoreUWP.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wuc="using:Windows.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CatalogView">
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ItemsControl ItemsSource="{Binding Products}">
-            <ItemsControl.ItemTemplate>
+        <ListView ItemsSource="{Binding Products}">
+            <ListView.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" Margin="0,0,10,0" />
-                        <TextBlock Text="{Binding Price}" />
-                    </StackPanel>
+                    <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="408"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Название" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="Цена" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                        <TextBlock Grid.Column="2" Text="Изображение" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                    </Grid>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="item:Product">
+                    <Grid Height="48" AutomationProperties.Name="{x:Bind Name}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Height="32" Width="32" VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="Placeholder.png"></ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"></TextBlock>
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Price}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
