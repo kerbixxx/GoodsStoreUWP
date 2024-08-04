@@ -120,9 +120,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Context\ApplicationDbContext.cs" />
-    <Compile Include="Data\Base\IRepository.cs" />
-    <Compile Include="Data\Base\Repository.cs" />
+    <Compile Include="Data\Repositories\IRepository.cs" />
+    <Compile Include="Data\Repositories\ProductRepository.cs" />
+    <Compile Include="Data\Repositories\ShopCartRepository.cs" />
+    <Compile Include="Models\ShopCartItem.cs" />
     <Compile Include="MVVM\ViewModels\Catalog\CatalogViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ShopCart\ShopCartViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ViewModel.cs" />
     <Compile Include="MVVM\Views\CatalogView.xaml.cs">
       <DependentUpon>CatalogView.xaml</DependentUpon>
@@ -189,6 +192,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Core">
+      <Version>8.1.97</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

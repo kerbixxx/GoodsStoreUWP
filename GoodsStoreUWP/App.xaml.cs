@@ -1,7 +1,9 @@
 ﻿using GoodsStoreUWP.Context;
-using GoodsStoreUWP.Data.Base;
+using GoodsStoreUWP.Data.Repositories;
+using GoodsStoreUWP.Models;
 using GoodsStoreUWP.MVVM.ViewModels;
 using GoodsStoreUWP.MVVM.ViewModels.Catalog;
+using GoodsStoreUWP.MVVM.ViewModels.ShopCart;
 using GoodsStoreUWP.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,12 +23,14 @@ namespace GoodsStoreUWP
         {
             IServiceCollection services = new ServiceCollection();
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlite("Data Source = GoodsStore.db"));
+                options => options.UseSqlite("Data Source = Store.db"));
 
             services.AddSingleton<Func<Type, ViewModel>>(
                         serviceProvider => viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));
-            services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddScoped<IRepository<ShopCartItem>,ShopCartRepository>();
+            services.AddScoped<IRepository<Product>,ProductRepository>();
             services.AddTransient<CatalogViewModel>();
+            services.AddTransient<ShopCartViewModel>();
 
 
             _serviceProvider = services.BuildServiceProvider();

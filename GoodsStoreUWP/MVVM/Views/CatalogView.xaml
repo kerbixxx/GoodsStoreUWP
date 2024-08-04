@@ -11,7 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CatalogView">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding Products}">
+        <ListView x:Name="MyListView" ItemsSource="{Binding Products}">
             <ListView.HeaderTemplate>
                 <DataTemplate>
                     <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
@@ -19,10 +19,12 @@
                             <ColumnDefinition Width="408"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Название" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
                         <TextBlock Grid.Column="1" Text="Цена" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
                         <TextBlock Grid.Column="2" Text="Изображение" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                        <TextBlock Grid.Column="3" Text="Кнопки управления" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListView.HeaderTemplate>
@@ -33,17 +35,26 @@
                             <ColumnDefinition Width="48"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                            <!-- Добавлена новая колонка для кнопки -->
                         </Grid.ColumnDefinitions>
-                        <Ellipse Height="32" Width="32" VerticalAlignment="Center">
+                        <Ellipse Grid.Column="0" Height="32" Width="32" VerticalAlignment="Center">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="Placeholder.png"></ImageBrush>
                             </Ellipse.Fill>
                         </Ellipse>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"></TextBlock>
                         <TextBlock Grid.Column="2" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Price}"></TextBlock>
+                        <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="Изображение"></TextBlock>
+                        <Button Grid.Column="4" Content="Добавить в корзину" 
+                    Command="{Binding DataContext.AddToCartCommand, ElementName=MyListView}"
+                    CommandParameter="{Binding Id}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+
+
         </ListView>
     </Grid>
 </Page>

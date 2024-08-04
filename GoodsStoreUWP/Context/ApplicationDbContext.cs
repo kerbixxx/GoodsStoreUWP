@@ -13,6 +13,7 @@ namespace GoodsStoreUWP.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ShopCartItem> ShopCart { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,14 @@ namespace GoodsStoreUWP.Context
                 entity.Property(e => e.Name).IsRequired();
                 entity.Property(e => e.Price).IsRequired();
             });
+            // Указываем имя таблицы для ShopCartItem
+            modelBuilder.Entity<ShopCartItem>().ToTable("ShopCart");
+
+            // Проверка существования таблицы перед ее созданием
+            if (!modelBuilder.Model.GetEntityTypes().Any(t => t.ClrType == typeof(ShopCartItem)))
+            {
+                modelBuilder.Entity<ShopCartItem>().ToTable("ShopCart");
+            }
 
             // Создание таблицы Products, если она еще не существует
             if (!modelBuilder.Model.GetEntityTypes().Any(t => t.ClrType == typeof(Product)))
