@@ -32,6 +32,12 @@ namespace GoodsStoreUWP.Data.Repositories
             return _db.Products.Find(id);
         }
 
+        public void Update(Product product)
+        {
+            _db.Products.Update(product);
+            _db.SaveChanges();
+        }
+
         public void Remove(Product product)
         {
             _db.Products.Remove(product);

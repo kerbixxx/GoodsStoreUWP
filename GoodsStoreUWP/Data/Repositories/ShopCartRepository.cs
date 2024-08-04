@@ -39,6 +39,12 @@ namespace GoodsStoreUWP.Data.Repositories
             return _db.ShopCart.Find(id);
         }
 
+        public void Update(ShopCartItem obj)
+        {
+            _db.ShopCart.Update(obj);
+            _db.SaveChanges();
+        }
+
         public void Remove(ShopCartItem item)
         {
             _db.ShopCart.Remove(item);

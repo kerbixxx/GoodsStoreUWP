@@ -12,5 +12,6 @@ namespace GoodsStoreUWP.Data.Repositories
         void Add(T item);
         T GetById(int id);
         void Remove(T item);
+        void Update(T item);
     }
 }

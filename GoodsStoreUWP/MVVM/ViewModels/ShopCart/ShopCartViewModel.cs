@@ -15,20 +15,15 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
         private readonly IRepository<ShopCartItem> _cartRepository;
         private ObservableCollection<ShopCartItem> _items;
 
-        public ObservableCollection<ShopCartItem> ShopCartItems
-        {
-            get => _items;
-            set
-            {
-                _items = value;
-
-            }
-        }
+        public ObservableCollection<ShopCartItem> ShopCartItems { get; set; }
         public ShopCartViewModel(IRepository<ShopCartItem> cartRepository)
         {
             _cartRepository = cartRepository;
 
             InitializeShopCart();
+
+            TotalQuantity = ShopCartItems.Sum(item => item.Quantity);
+            TotalSum = ShopCartItems.Sum(item => item.Product.Price * item.Quantity);
         }
 
         private void InitializeShopCart()
@@ -50,6 +45,33 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             }
         }
 
+        public void DecreaseQuantity(int shopcartitemId)
+        {
+            var obj = _cartRepository.GetById(shopcartitemId);
+            if (obj != null)
+            {
+                if (obj.Quantity > 1)
+                {
+                    obj.Quantity--;
+                    _cartRepository.Update(obj);
+                }
+                else
+                {
+                    _cartRepository.Remove(obj);
+                }
+            }
+        }
+
+        public void IncreaseQuantity(int shopcartitemId)
+        {
+            var obj = _cartRepository.GetById(shopcartitemId);
+            if (obj != null)
+            {
+                obj.Quantity++;
+                _cartRepository.Update(obj);
+            }
+        }
+
         public ObservableCollection<ShopCartItem> GetCartItems()
         {
             return new ObservableCollection<ShopCartItem>(_cartRepository.GetAll());
@@ -61,12 +83,40 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void RemoveProduct(int productId)
+        public void RemoveProduct(int shopcartitemId)
         {
-            var product = _cartRepository.GetAll().FirstOrDefault(c => c.ProductId == productId);
-            if (product != null)
+            var obj = _cartRepository.GetAll().FirstOrDefault(c => c.Id == shopcartitemId);
+            if (obj != null)
             {
-                _cartRepository.Remove(product);
+                _cartRepository.Remove(obj);
+            }
+        }
+
+        private decimal _totalSum;
+        public decimal TotalSum
+        {
+            get { return _totalSum; }
+            set
+            {
+                if (_totalSum != value)
+                {
+                    _totalSum = value;
+                    OnPropertyChanged(nameof(TotalSum));
+                }
+            }
+        }
+
+        private int _totalQuantity;
+        public int TotalQuantity
+        {
+            get { return _totalQuantity; }
+            set
+            {
+                if (_totalQuantity != value)
+                {
+                    _totalQuantity = value;
+                    OnPropertyChanged(nameof(TotalQuantity));
+                }
             }
         }
     }
