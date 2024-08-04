@@ -39,7 +39,7 @@ namespace GoodsStoreUWP
                 return;
             }
 
-            var clickedView = item.Tag?.ToString() ?? "SettingsView";
+            var clickedView = item.Tag?.ToString();
             if (!NavigateToView(clickedView)) return;
             _lastItem = item;
         }

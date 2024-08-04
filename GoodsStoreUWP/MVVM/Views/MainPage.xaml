@@ -10,7 +10,7 @@
 
     <Grid>
         <NavigationView x:Name="NavView" ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded" SelectionChanged="NavView_SelectionChanged" BackRequested="NavView_BackRequested" 
-                        IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}">
+                        IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}" IsSettingsVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Каталог" Tag="CatalogView" Icon="Home"/>
                 <NavigationViewItem Content="Корзина" Tag="ShopCartView" Icon="Shop"/>

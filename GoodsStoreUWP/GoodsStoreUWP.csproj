@@ -134,9 +134,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs" />
-    <Compile Include="MVVM\Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MVVM\Views\ShopCartView.xaml.cs">
       <DependentUpon>ShopCartView.xaml</DependentUpon>
     </Compile>
@@ -170,10 +167,6 @@
     <Page Include="MVVM\Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MVVM\Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MVVM\Views\ShopCartView.xaml">
       <SubType>Designer</SubType>
