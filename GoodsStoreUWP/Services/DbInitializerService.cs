@@ -17,7 +17,7 @@ namespace GoodsStoreUWP.Services
             using (var serviceScope = serviceProvider.CreateScope())
             {
                 var db = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-                if (!File.Exists("GoodsStore.db"))
+                if (!File.Exists("Goods.db"))
                 {
                     try
                     {
@@ -50,7 +50,7 @@ namespace GoodsStoreUWP.Services
             Random rnd = new Random();
             for(var i = 0; i < productsCount; i++)
             {
-                products.Add(new Product() { Name = "product" + i.ToString(), Price = Convert.ToDecimal(rnd.Next(10, 1000) + 0.99) });
+                products.Add(new Product() { Name = "product" + i.ToString(), Price = Convert.ToDecimal(rnd.Next(10, 1000) + 0.99),ImagePath = "product"+i.ToString()+".png" });
             }
             db.AddRange(products);
             db.SaveChanges();

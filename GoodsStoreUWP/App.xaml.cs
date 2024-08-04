@@ -23,7 +23,7 @@ namespace GoodsStoreUWP
         {
             IServiceCollection services = new ServiceCollection();
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlite("Data Source = Store.db"));
+                options => options.UseSqlite("Data Source = Goods.db"));
 
             services.AddSingleton<Func<Type, ViewModel>>(
                         serviceProvider => viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));

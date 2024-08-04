@@ -10,28 +10,33 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="417"/>
-            <ColumnDefinition Width="1095"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" MinWidth="461" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Общая сумма:" Margin="12,12,0,0" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Общая сумма:" Margin="0,13,294,0" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.RowSpan="2"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Общее количество:" Margin="0,53,254,0" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        </Grid>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Общее количество:" Margin="12,17,6,0" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TotalSumTextBlock" Grid.Row="0" Grid.Column="0" Text="{Binding TotalSum}" Margin="0,0,0,12" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TotalQuantityTextBlock" Grid.Row="1" Grid.Column="0" Text="{Binding TotalQuantity}" Margin="0,0,0,12" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </Grid>
 
-        <TextBlock x:Name="TotalSumTextBlock" Grid.Row="0" Grid.Column="3" Text="{Binding TotalSum}" Margin="0,0,0,12" FontSize="16" FontWeight="Bold"/>
+        <Button Content="Сортировать по названию" Click="SortByName_Click" Margin="0,93,0,0" VerticalAlignment="Top" Height="32" Width="191" />
+        <Button Content="Сортировать по цене" Click="SortByPrice_Click" Margin="303,93,0,0" VerticalAlignment="Top" Height="32" Width="158" />
 
-        <TextBlock x:Name="TotalQuantityTextBlock" Grid.Row="1" Grid.Column="3" Text="{Binding TotalQuantity}" Margin="0,0,0,12" FontSize="16" FontWeight="Bold"/>
-        <Button Content="Сортировать по названию" Click="SortByName_Click" Margin="0,25,0,0" Grid.Row="2" VerticalAlignment="Top" />
-        <Button Content="Сортировать по цене" Click="SortByPrice_Click" Margin="249,25,0,0" Grid.Row="2" VerticalAlignment="Top" />
-        <ListView x:Name="CartListView" ItemsSource="{Binding ShopCartItems}" Grid.ColumnSpan="2" Margin="0,79,10,0" Grid.Row="2" Height="843" VerticalAlignment="Top">
+        <ListView x:Name="CartListView" ItemsSource="{Binding ShopCartItems}" Grid.ColumnSpan="2" Margin="0,157,10,0" Height="843" VerticalAlignment="Top">
             <ListView.HeaderTemplate>
                 <DataTemplate>
                     <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
@@ -68,6 +73,11 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </ListView>
     </Grid>
 </Page>

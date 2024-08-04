@@ -37,7 +37,6 @@
                             <ColumnDefinition Width="360"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
-                            <!-- Добавлена новая колонка для кнопки -->
                         </Grid.ColumnDefinitions>
                         <Ellipse Grid.Column="0" Height="32" Width="32" VerticalAlignment="Center">
                             <Ellipse.Fill>
@@ -53,8 +52,6 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
-
         </ListView>
     </Grid>
 </Page>
