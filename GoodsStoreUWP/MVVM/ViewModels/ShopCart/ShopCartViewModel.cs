@@ -1,5 +1,6 @@
 ﻿using GoodsStoreUWP.Data.Repositories;
 using GoodsStoreUWP.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
 {
@@ -19,12 +21,13 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
         public ShopCartViewModel(IRepository<ShopCartItem> cartRepository)
         {
             _cartRepository = cartRepository;
-
             InitializeShopCart();
+            LoadSortStateAsync();
         }
 
         private void InitializeShopCart()
         {
+
             var shopcart = _cartRepository.GetAll();
             ShopCartItems = new ObservableCollection<ShopCartItem>(shopcart);
             CalculateTotals();
@@ -117,6 +120,7 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Name).ToList());
             }
             CalculateTotals();
+            SaveSortStateAsync();
         }
 
         public void SortByName()
@@ -137,7 +141,52 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Price).ToList());
             }
             CalculateTotals();
+            SaveSortStateAsync();
         }
+
+        public void SaveSortStateAsync()
+        {
+            var sortSettings = new
+            {
+                Key = SortKey,
+                Ascending = IsAscending
+            };
+
+            var json = JsonConvert.SerializeObject(sortSettings);
+
+            ApplicationData.Current.LocalSettings.Values["SortSettings"] = json;
+        }
+
+        public void LoadSortStateAsync()
+        {
+            var savedJson = ApplicationData.Current.LocalSettings.Values["SortSettings"] as string;
+
+            if (!string.IsNullOrEmpty(savedJson))
+            {
+                var settings = JsonConvert.DeserializeObject<dynamic>(savedJson);
+
+                SortKey = settings.Key.ToString();
+                IsAscending = Convert.ToBoolean(settings.Ascending);
+
+                if (SortKey == "Price")
+                {
+                    if (IsAscending)
+                    {
+                        ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Price).ToList());
+                    }
+                    else
+                    {
+                        ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderByDescending(i => i.Product.Price).ToList());
+                    }
+                }
+                else
+                {
+                    ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Name).ToList());
+                }
+                CalculateTotals();
+            }
+        }
+
 
         private decimal _totalSum;
         public decimal TotalSum
