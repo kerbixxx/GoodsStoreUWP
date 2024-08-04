@@ -56,6 +56,8 @@ namespace GoodsStoreUWP.MVVM.Views
         {
             CartListView.ItemsSource = null;
             CartListView.ItemsSource = _viewModel.ShopCartItems;
+            TotalSumTextBlock.Text = _viewModel.TotalSum.ToString();
+            TotalQuantityTextBlock.Text = _viewModel.TotalQuantity.ToString();
         }
     }
 }

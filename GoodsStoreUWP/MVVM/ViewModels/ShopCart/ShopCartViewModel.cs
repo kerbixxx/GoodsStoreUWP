@@ -21,15 +21,19 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             _cartRepository = cartRepository;
 
             InitializeShopCart();
-
-            TotalQuantity = ShopCartItems.Sum(item => item.Quantity);
-            TotalSum = ShopCartItems.Sum(item => item.Product.Price * item.Quantity);
         }
 
         private void InitializeShopCart()
         {
             var shopcart = _cartRepository.GetAll();
             ShopCartItems = new ObservableCollection<ShopCartItem>(shopcart);
+            CalculateTotals();
+        }
+
+        public void CalculateTotals()
+        {
+            TotalQuantity = ShopCartItems.Sum(item => item.Quantity);
+            TotalSum = ShopCartItems.Sum(item => item.Product.Price * item.Quantity);
         }
 
         public void AddProduct(int productId)
@@ -59,6 +63,7 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 {
                     _cartRepository.Remove(obj);
                 }
+                InitializeShopCart();
             }
         }
 
@@ -70,6 +75,7 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 obj.Quantity++;
                 _cartRepository.Update(obj);
             }
+            InitializeShopCart();
         }
 
         public ObservableCollection<ShopCartItem> GetCartItems()
@@ -90,6 +96,7 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             {
                 _cartRepository.Remove(obj);
             }
+            InitializeShopCart();
         }
 
         private decimal _totalSum;

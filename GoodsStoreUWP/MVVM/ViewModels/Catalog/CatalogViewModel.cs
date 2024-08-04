@@ -47,16 +47,13 @@ namespace GoodsStoreUWP.MVVM.ViewModels.Catalog
 
             if (cartItem != null)
             {
-                // Увеличить количество товара в корзине
                 cartItem.Quantity++;
             }
             else
             {
-                // Добавить новый товар в корзину
-                _cartRepository.Add(new ShopCartItem { ProductId = product.Id });
+                _cartRepository.Add(new ShopCartItem { ProductId = product.Id, Quantity = 1 });
             }
 
-            // Обновить данные корзины
             OnPropertyChanged(nameof(CartItems));
         }
 
