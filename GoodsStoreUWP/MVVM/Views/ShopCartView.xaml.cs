@@ -51,6 +51,21 @@ namespace GoodsStoreUWP.MVVM.Views
                 UpdateCartList();
             }
         }
+        private void SortByName_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SortKey = "Name";
+            _viewModel.IsAscending = !_viewModel.IsAscending;
+            _viewModel.SortByName();
+            UpdateCartList();
+        }
+
+        private void SortByPrice_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SortKey = "Price";
+            _viewModel.IsAscending = !_viewModel.IsAscending;
+            _viewModel.SortByPrice();
+            UpdateCartList();
+        }
 
         private void UpdateCartList()
         {

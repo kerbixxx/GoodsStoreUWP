@@ -99,6 +99,46 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             InitializeShopCart();
         }
 
+        public void SortByPrice()
+        {
+            if (!string.IsNullOrEmpty(SortKey) && SortKey == "Price")
+            {
+                if (IsAscending)
+                {
+                    ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Price).ToList());
+                }
+                else
+                {
+                    ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderByDescending(i => i.Product.Price).ToList());
+                }
+            }
+            else
+            {
+                ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Name).ToList());
+            }
+            CalculateTotals();
+        }
+
+        public void SortByName()
+        {
+            if (!string.IsNullOrEmpty(SortKey) && SortKey == "Name")
+            {
+                if (IsAscending)
+                {
+                    ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Name).ToList());
+                }
+                else
+                {
+                    ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderByDescending(i => i.Product.Name).ToList());
+                }
+            }
+            else
+            {
+                ShopCartItems = new ObservableCollection<ShopCartItem>(ShopCartItems.OrderBy(i => i.Product.Price).ToList());
+            }
+            CalculateTotals();
+        }
+
         private decimal _totalSum;
         public decimal TotalSum
         {
@@ -126,5 +166,28 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 }
             }
         }
+
+        private string _sortKey;
+        public string SortKey
+        {
+            get { return _sortKey; }
+            set
+            {
+                _sortKey = value;
+                OnPropertyChanged(nameof(SortKey));
+            }
+        }
+
+        private bool _isAscending;
+        public bool IsAscending
+        {
+            get { return _isAscending; }
+            set
+            {
+                _isAscending = value;
+                OnPropertyChanged(nameof(IsAscending));
+            }
+        }
+
     }
 }
