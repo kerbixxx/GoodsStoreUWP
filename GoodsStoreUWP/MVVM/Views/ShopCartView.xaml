@@ -9,8 +9,8 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView x:Name="CartListView" ItemsSource="{Binding ShopCartItems}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:ShopCartItem">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
                     <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="408"></ColumnDefinition>
@@ -18,9 +18,25 @@
                             <ColumnDefinition Width="360"></ColumnDefinition>
                             <ColumnDefinition Width="360"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{x:Bind Product.Name}" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
-                        <TextBlock Grid.Column="1" Text="{x:Bind Product.Price}" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
-                        <Image Grid.Column="2" Stretch="UniformToFill" Width="100" Height="100"/>
+                        <TextBlock Text="Название товара" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="Цена" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                        <TextBlock Grid.Column="2" Text="Количество" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                        <TextBlock Grid.Column="3" Text="Кнопки управления" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:ShopCartItem">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="408"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                            <ColumnDefinition Width="360"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{x:Bind Product.Name}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="{x:Bind Product.Price}"></TextBlock>
+                        <TextBlock Grid.Column="2" Text="{x:Bind Quantity}"></TextBlock>
                         <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="0,0,10,0">
                             <Button Content="+" Click="IncreaseQuantity_Click" CommandParameter="{x:Bind Id}" />
                             <Button Content="-" Click="DecreaseQuantity_Click" CommandParameter="{x:Bind Id}" />
