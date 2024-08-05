@@ -50,7 +50,7 @@ namespace GoodsStoreUWP.Services
             Random rnd = new Random();
             for(var i = 0; i < productsCount; i++)
             {
-                products.Add(new Product() { Name = "product" + i.ToString(), Price = Convert.ToDecimal(rnd.Next(10, 1000) + 0.99),ImagePath = "product"+i.ToString()+".png" });
+                products.Add(new Product() { Name = "product" + i.ToString(), Price = Convert.ToDecimal(rnd.Next(10, 1000) + 0.99),ImagePath = "/Assets/Products/product" + i.ToString()+".png" });
             }
             db.AddRange(products);
             db.SaveChanges();

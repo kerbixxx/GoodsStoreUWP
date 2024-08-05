@@ -146,6 +146,26 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Products\product0.png" />
+    <Content Include="Assets\Products\product1.png" />
+    <Content Include="Assets\Products\product10.png" />
+    <Content Include="Assets\Products\product11.png" />
+    <Content Include="Assets\Products\product12.png" />
+    <Content Include="Assets\Products\product13.png" />
+    <Content Include="Assets\Products\product14.png" />
+    <Content Include="Assets\Products\product15.png" />
+    <Content Include="Assets\Products\product16.png" />
+    <Content Include="Assets\Products\product17.png" />
+    <Content Include="Assets\Products\product18.png" />
+    <Content Include="Assets\Products\product19.png" />
+    <Content Include="Assets\Products\product2.png" />
+    <Content Include="Assets\Products\product3.png" />
+    <Content Include="Assets\Products\product4.png" />
+    <Content Include="Assets\Products\product5.png" />
+    <Content Include="Assets\Products\product6.png" />
+    <Content Include="Assets\Products\product7.png" />
+    <Content Include="Assets\Products\product8.png" />
+    <Content Include="Assets\Products\product9.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

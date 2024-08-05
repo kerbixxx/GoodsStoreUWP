@@ -8,5 +8,6 @@
         <x:Double x:Key="WideStateMinWidth">960</x:Double>
         <x:Double x:Key="NarrowStateMinWidth">640</x:Double>
         <x:Double x:Key="NarrowerStateMinWidth">320</x:Double>
+
     </Application.Resources>
 </Application>
