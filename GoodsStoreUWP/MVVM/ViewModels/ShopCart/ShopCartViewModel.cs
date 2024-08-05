@@ -1,4 +1,5 @@
-﻿using GoodsStoreUWP.Data.Repositories;
+﻿using CommunityToolkit.Mvvm.Input;
+using GoodsStoreUWP.Data.Repositories;
 using GoodsStoreUWP.Models;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 
 namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
@@ -16,7 +18,11 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
     {
         private readonly IRepository<ShopCartItem> _cartRepository;
         private ObservableCollection<ShopCartItem> _items;
-
+        public ICommand IncreaseQuantityCommand { get; }
+        public ICommand DecreaseQuantityCommand { get; }
+        public ICommand RemoveItemCommand { get; }
+        public ICommand SortByNameCommand { get; }
+        public ICommand SortByPriceCommand { get; }
         public ObservableCollection<ShopCartItem> ShopCartItems { get; set; }
         public ShopCartViewModel(IRepository<ShopCartItem> cartRepository)
         {
@@ -39,18 +45,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             TotalSum = ShopCartItems.Sum(item => item.Product.Price * item.Quantity);
         }
 
-        public void AddProduct(int productId)
-        {
-            var product = _cartRepository.GetAll().FirstOrDefault(c => c.ProductId == productId);
-            if (product != null)
-            {
-                product.Quantity++;
-            }
-            else
-            {
-                _cartRepository.Add(new ShopCartItem { ProductId = productId });
-            }
-        }
 
         public void DecreaseQuantity(int shopcartitemId)
         {
@@ -65,8 +59,9 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 else
                 {
                     _cartRepository.Remove(obj);
+                    ShopCartItems.Remove(obj);
                 }
-                InitializeShopCart();
+                CalculateTotals();
             }
         }
 
@@ -78,7 +73,32 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 obj.Quantity++;
                 _cartRepository.Update(obj);
             }
-            InitializeShopCart();
+            CalculateTotals();
+        }
+        public void AddProduct(int productId)
+        {
+            var product = _cartRepository.GetAll().FirstOrDefault(c => c.ProductId == productId);
+            if (product != null)
+            {
+                product.Quantity++;
+            }
+            else
+            {
+                var newItem = new ShopCartItem { ProductId = productId };
+                _cartRepository.Add(newItem);
+                ShopCartItems.Add(newItem);
+            }
+            CalculateTotals();
+        }
+        public void RemoveProduct(int shopcartitemId)
+        {
+            var obj = _cartRepository.GetAll().FirstOrDefault(c => c.Id == shopcartitemId);
+            if (obj != null)
+            {
+                _cartRepository.Remove(obj);
+                ShopCartItems.Remove(obj);
+            }
+            CalculateTotals();
         }
 
         public ObservableCollection<ShopCartItem> GetCartItems()
@@ -92,15 +112,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void RemoveProduct(int shopcartitemId)
-        {
-            var obj = _cartRepository.GetAll().FirstOrDefault(c => c.Id == shopcartitemId);
-            if (obj != null)
-            {
-                _cartRepository.Remove(obj);
-            }
-            InitializeShopCart();
-        }
 
         public void SortByPrice()
         {
