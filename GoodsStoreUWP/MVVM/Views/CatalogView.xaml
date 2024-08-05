@@ -11,47 +11,86 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CatalogView">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="MyListView" ItemsSource="{Binding Products}">
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-                    <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="408"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Название" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
-                        <TextBlock Grid.Column="1" Text="Цена" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
-                        <TextBlock Grid.Column="2" Text="Изображение" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
-                        <TextBlock Grid.Column="3" Text="Кнопки управления" Style="{ThemeResource CaptionTextBlockStyle}"></TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
-            <ListView.ItemTemplate>
+        <GridView Grid.Row="1" ItemsSource="{Binding Products}" x:Name="MyGridView">
+            <GridView.ItemTemplate>
                 <DataTemplate x:DataType="item:Product">
-                    <Grid Height="48" AutomationProperties.Name="{x:Bind Name}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                            <ColumnDefinition Width="360"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Ellipse Grid.Column="0" Height="32" Width="32" VerticalAlignment="Center">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="Placeholder.png"></ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"></TextBlock>
-                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Price}"></TextBlock>
-                        <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="Изображение"></TextBlock>
-                        <Button Grid.Column="4" Content="Добавить в корзину" 
-                    Command="{Binding DataContext.AddToCartCommand, ElementName=MyListView}"
-                    CommandParameter="{Binding Id}"/>
-                    </Grid>
+                    <UserControl>
+                        <StackPanel x:Name="productCard" Margin="5" Width="200">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="AdaptiveVisualStates">
+                                    <VisualState x:Name="NarrowerState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowerStateMinWidth}"></AdaptiveTrigger>
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="productCard.Width" Value="125"></Setter>
+                                            <Setter Target="productTitle.FontSize" Value="12"></Setter>
+                                            <Setter Target="productPrice.FontSize" Value="12"></Setter>
+                                            <Setter Target="productButton.FontSize" Value="12"></Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="NarrowState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowStateMinWidth}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="productCard.Width" Value="150"/>
+                                            <Setter Target="productTitle.FontSize" Value="13"/>
+                                            <Setter Target="productPrice.FontSize" Value="13"/>
+                                            <Setter Target="addToCartButton.FontSize" Value="13"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="WideState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="{StaticResource WideStateMinWidth}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="productCard.Width" Value="175"/>
+                                            <Setter Target="productTitle.FontSize" Value="14"/>
+                                            <Setter Target="productPrice.FontSize" Value="14"/>
+                                            <Setter Target="addToCartButton.FontSize" Value="14"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="WiderState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="{StaticResource WiderStateMinWidth}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Image Source="{x:Bind ImagePath, Mode=OneWay}"
+                                   Height="{Binding Width, ElementName=productCard}"></Image>
+
+                            <Grid x:Name="productCardDetailsGrid">
+                                <StackPanel>
+                                    <TextBlock x:Name="productTitle" Text="{x:Bind Name, Mode=OneWay}" Margin="0,10,0,0"
+                                               HorizontalAlignment="Center" TextAlignment="Center"
+                                               TextWrapping="WrapWholeWords"></TextBlock>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                        <TextBlock x:Name="productPrice" VerticalAlignment="Center">
+                                            <Run Text="Price"></Run>
+                                            <Run Text="{x:Bind Price, Mode=OneWay}"></Run>
+                                        </TextBlock>
+                                        <HyperlinkButton Foreground="White" Margin="5,0,0,0"
+                                                         Command="{Binding DataContext.AddToCartCommand, ElementName=MyGridView}"
+                                                         ToolTipService.ToolTip="Add to Cart"
+                                                         CommandParameter="{Binding Id}">
+                                            <Border CornerRadius="50" Background="Green">
+                                                <TextBlock x:Name="addToCartButton" Text="&#xE7BF;" FontFamily="segoe mdl2 assets" Padding="5"/>
+                                            </Border>
+                                        </HyperlinkButton>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </UserControl>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 </Page>
