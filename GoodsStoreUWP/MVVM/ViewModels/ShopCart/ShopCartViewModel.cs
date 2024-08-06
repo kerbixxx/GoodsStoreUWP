@@ -18,11 +18,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
     {
         private readonly IRepository<ShopCartItem> _cartRepository;
         private ObservableCollection<ShopCartItem> _items;
-        public ICommand IncreaseQuantityCommand { get; }
-        public ICommand DecreaseQuantityCommand { get; }
-        public ICommand RemoveItemCommand { get; }
-        public ICommand SortByNameCommand { get; }
-        public ICommand SortByPriceCommand { get; }
         public ObservableCollection<ShopCartItem> ShopCartItems { get; set; }
         public ShopCartViewModel(IRepository<ShopCartItem> cartRepository)
         {
@@ -104,12 +99,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
         public ObservableCollection<ShopCartItem> GetCartItems()
         {
             return new ObservableCollection<ShopCartItem>(_cartRepository.GetAll());
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
 
@@ -208,7 +197,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 if (_totalSum != value)
                 {
                     _totalSum = value;
-                    OnPropertyChanged(nameof(TotalSum));
                 }
             }
         }
@@ -222,7 +210,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
                 if (_totalQuantity != value)
                 {
                     _totalQuantity = value;
-                    OnPropertyChanged(nameof(TotalQuantity));
                 }
             }
         }
@@ -234,7 +221,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             set
             {
                 _sortKey = value;
-                OnPropertyChanged(nameof(SortKey));
             }
         }
 
@@ -245,7 +231,6 @@ namespace GoodsStoreUWP.MVVM.ViewModels.ShopCart
             set
             {
                 _isAscending = value;
-                OnPropertyChanged(nameof(IsAscending));
             }
         }
 
